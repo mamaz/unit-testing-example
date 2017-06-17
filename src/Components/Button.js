@@ -1,16 +1,27 @@
-import React, { Component, PropTypes } from 'react';
-import { View } from 'react-native';
+import React, { PropTypes } from 'react';
+import { TouchableHighlight, Text } from 'react-native';
 
-class Button extends Component {
-  render() {
-    return (
-      <View />
-    );
+const styles = {
+  button: {
+
   }
-}
+};
+
+const Button = (props) => {
+  const { onPress, text } = props;
+  return (
+    <TouchableHighlight
+      style={styles.button}
+      onPress={onPress}
+    >
+      <Text>{text}</Text>
+    </TouchableHighlight>
+  );
+};
 
 Button.propTypes = {
-
+  onPress: PropTypes.func,
+  text: PropTypes.string
 };
 
 export default Button;
