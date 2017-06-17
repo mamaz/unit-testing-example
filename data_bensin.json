@@ -1,0 +1,57 @@
+{
+  "DKI": [{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "Pertamax 92",
+    "produsen": "Pertamina",
+    "harga": 123
+  },{
+    "id": 13,
+    "img": "http://image.url/img.png",
+    "nama": "Pertamax 98 (Turbo)",
+    "produsen": "Pertamina",
+    "harga": 123
+  },{
+    "id": 14,
+    "img": "http://image.url/img.png",
+    "nama": "Pertamina Dex",
+    "produsen": "Pertamina",
+    "harga": 123
+  },{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "Super",
+    "produsen": "Shell",
+    "harga": 123
+  },{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "V-Power",
+    "produsen": "Shell",
+    "harga": 123
+  },{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "Diesel",
+    "produsen": "Shell",
+    "harga": 123
+  },{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "Performance 92",
+    "produsen": "Total",
+    "harga": 123
+  },{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "Performance 95",
+    "produsen": "Total",
+    "harga": 123
+  },{
+    "id": 12,
+    "img": "http://image.url/img.png",
+    "nama": "Diesel",
+    "produsen": "Total",
+    "harga": 123
+  }]
+}

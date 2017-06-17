@@ -1,0 +1,7 @@
+{
+  "sourceBase":"src",
+  "testBase":"src",
+  "smartPath":"Containers",
+  "dumbPath":"Components",
+  "fileCasing": "default"
+}

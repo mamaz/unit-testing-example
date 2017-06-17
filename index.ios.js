@@ -8,46 +8,81 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text,
+  FlatList,
+  ActivityIndicator,
   View
 } from 'react-native';
 
-export default class UnitTestingExample extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import { getGasolineData } from './src/Services/GasolineServices';
+import gasolineCell from './src/Components/GasolineCell';
+import rowGasolineData from './src/ViewModels/GasolineViewModel';
+import Button from './src/Components/Button';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  flatList: {
+    flex: 1
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  activity: {
+
+  }
 });
+
+export default class UnitTestingExample extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      loading: false
+    };
+  }
+
+  componentDidMount() {
+    this._refresh();
+  }
+
+  _refresh = () => {
+    this.state.loading = true;
+
+    // api call
+    getGasolineData()
+    .then(response => response.DKI.map(item => rowGasolineData(item)))
+    .then((gasolines) => {
+      this.setState({
+        data: gasolines
+      });
+      this.state.loading = false;
+    }).catch((error) => {
+      this.state.loading = false;
+    });
+  }
+
+  _refreshHandler = () => {
+    this._refresh();
+  }
+
+  render() {
+    const isLoading = this.state.loading;
+    return (
+      isLoading ?
+        <ActivityIndicator style={styles.activity} /> :
+        (
+          <View style={styles.container}>
+            <FlatList
+              data={this.state.data}
+              renderItem={gasolineCell}
+              style={styles.flatList}
+            />
+            <Button onPress={this._refreshHandler}/>
+          </View>
+        )
+    );
+  }
+}
 
 AppRegistry.registerComponent('UnitTestingExample', () => UnitTestingExample);
