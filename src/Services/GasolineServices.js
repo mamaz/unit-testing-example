@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const GASOLINE_URL = 'https://api.myjson.com/bins/hwi9z';
+// const GASOLINE_URL = 'https://api.myjson.com/bins/hwi9z';
+// const GASOLINE_URL = 'https://api.myjson.com/bins/ovphj';
+const GASOLINE_URL = 'https://api.myjson.com/bins/izilj';
 
 // will return promise
 const getGasolineData = () => {

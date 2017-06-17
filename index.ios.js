@@ -8,9 +8,11 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  FlatList,
+  ListView,
   ActivityIndicator,
-  View
+  View,
+  Text,
+  Dimensions
 } from 'react-native';
 
 import { getGasolineData } from './src/Services/GasolineServices';
@@ -18,47 +20,65 @@ import gasolineCell from './src/Components/GasolineCell';
 import rowGasolineData from './src/ViewModels/GasolineViewModel';
 import Button from './src/Components/Button';
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 20
   },
   flatList: {
     flex: 1
   },
   activity: {
-
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 export default class UnitTestingExample extends Component {
   constructor(props) {
     super(props);
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
-      data: [],
+      data: this.ds.cloneWithRows([]),
       loading: false
     };
   }
 
   componentDidMount() {
+    console.log("Did mount");
     this._refresh();
   }
 
   _refresh = () => {
-    this.state.loading = true;
+    console.log("Refresh");
+    this.setState({
+      loading: true
+    });
 
     // api call
     getGasolineData()
-    .then(response => response.DKI.map(item => rowGasolineData(item)))
+    .then(response => {
+      return response.data.DKI.map(item => rowGasolineData(item))
+    })
     .then((gasolines) => {
+      console.log("Parsed data", gasolines);
       this.setState({
-        data: gasolines
+        data: this.ds.cloneWithRows(gasolines),
+        loading: false
       });
-      this.state.loading = false;
+
     }).catch((error) => {
-      this.state.loading = false;
+      console.log('Error', error);
+      this.setState({
+        loading: false
+      })
     });
   }
 
@@ -68,17 +88,24 @@ export default class UnitTestingExample extends Component {
 
   render() {
     const isLoading = this.state.loading;
+
     return (
       isLoading ?
-        <ActivityIndicator style={styles.activity} /> :
+        (
+          <View style={{ flex: 1 }}>
+            <ActivityIndicator style={styles.activity}/>
+          </View>
+        )
+        :
         (
           <View style={styles.container}>
-            <FlatList
-              data={this.state.data}
-              renderItem={gasolineCell}
+            <ListView
+              dataSource={this.state.data}
+              renderRow={gasolineCell}
+              enableEmptySections={true}
               style={styles.flatList}
             />
-            <Button onPress={this._refreshHandler}/>
+            <Button text={'Refresh'} onPress={this._refreshHandler}/>
           </View>
         )
     );
